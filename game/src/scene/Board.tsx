@@ -10,6 +10,7 @@ import { highlightsFor, onTerritoryClick } from '../state/interaction';
 import { useUI } from '../state/uiStore';
 import { ATTACK_COLOR, cachedColor, FORTIFY_COLOR, MAP_URL } from './sceneConfig';
 import { fx, useDisplayedTerritories } from './sceneState';
+import { makeWaterMaterial, setShoreFromLand, waterUniforms } from './water';
 
 const LIFT = 0.003;
 const ID_SET = new Set<string>(TERRITORY_IDS);
@@ -43,6 +44,7 @@ export function Board() {
     scene.traverse((o) => {
       const m = o as Mesh;
       if (m.isMesh) { m.receiveShadow = true; m.castShadow = !/^(Ocean|Board)$/.test(m.name); }
+      if (m.isMesh && m.name === 'Ocean' && (m.material as MeshStandardMaterial).name !== 'Water') m.material = makeWaterMaterial(m.material as MeshStandardMaterial);
       const id = m.isMesh && m.name.startsWith('Territory_') ? territoryOf(m) : null;
       if (!id) return;
       const mat = (m.material as MeshStandardMaterial).clone();
@@ -50,6 +52,7 @@ export function Board() {
       m.material = mat;
       out.push({ id, mesh: m, mat, baseY: m.position.y });
     });
+    setShoreFromLand(out.map((t) => t.mesh));
     return out;
   }, [scene]);
   useEffect(() => () => { for (const t of tiles) t.mat.dispose(); }, [tiles]);
@@ -72,6 +75,7 @@ export function Board() {
   useFrame(({ clock }, dt) => {
     const s = state.current;
     const t = clock.elapsedTime;
+    waterUniforms.uWaterTime.value = t;
     const pulse = 0.5 + 0.5 * Math.sin(t * 4);
     const k = Math.min(1, dt * 14);
     for (const tile of tiles) {

@@ -51,6 +51,9 @@ const safeStorage = createJSONStorage(() => {
   }
 });
 
+/** Default music level: 25% under the original 0.5 so the music sits behind the game. */
+export const DEFAULT_MUSIC_VOLUME = 0.375;
+
 export const useUI = create<UIStore>()(
   persist(
     (set) => ({
@@ -63,7 +66,7 @@ export const useUI = create<UIStore>()(
       camera: { kind: 'overview' },
 
       music: 'meadow',
-      musicVolume: 0.5,
+      musicVolume: DEFAULT_MUSIC_VOLUME,
       sfxVolume: 0.8,
       animSpeed: 1,
       showLabels: true,
@@ -82,6 +85,13 @@ export const useUI = create<UIStore>()(
     {
       name: 'risk3d-prefs',
       storage: safeStorage,
+      version: 1,
+      // v0 → v1: the default music volume dropped from 0.5 to 0.375; move players still on the old default.
+      migrate: (persisted, version) => {
+        const p = (persisted ?? {}) as Partial<UIStore>;
+        if (version < 1 && p.musicVolume === 0.5) p.musicVolume = DEFAULT_MUSIC_VOLUME;
+        return p as UIStore;
+      },
       partialize: (s) => ({ music: s.music, musicVolume: s.musicVolume, sfxVolume: s.sfxVolume, animSpeed: s.animSpeed, showLabels: s.showLabels }),
     },
   ),

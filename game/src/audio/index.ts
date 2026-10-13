@@ -29,7 +29,7 @@ declare global {
 }
 
 const GESTURES = ['pointerdown', 'keydown', 'touchend'] as const;
-const DEFAULT_MUSIC_VOLUME = 0.5;
+const DEFAULT_MUSIC_VOLUME = 0.375;
 const DEFAULT_SFX_VOLUME = 0.8;
 
 let ctx: AudioContext | null = null;

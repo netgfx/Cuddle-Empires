@@ -1,4 +1,4 @@
-// Root 3D view: canvas, lighting, table, board, pawns, arcs, effects, camera, dice.
+// Root 3D view: canvas, lighting, table, board, clouds, pawns, arcs, effects, camera, dice.
 import { Environment, Hud, Lightformer, PerspectiveCamera } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useMemo } from 'react';
@@ -7,6 +7,7 @@ import { DiceLayer } from '../dice/DiceLayer';
 import { AttackArcs } from './AttackArcs';
 import { Board } from './Board';
 import { CameraRig } from './CameraRig';
+import { Clouds } from './Clouds';
 import { Effects, EventAnimations } from './Effects';
 import { Labels } from './Labels';
 import { Badges, OwnerRings, Pawns } from './Pawns';
@@ -102,6 +103,7 @@ export function GameCanvas() {
         <Suspense fallback={null}>
           <Board />
         </Suspense>
+        <Clouds />
         <OwnerRings />
         <Pawns />
         <Suspense fallback={null}>

@@ -1,0 +1,14 @@
+frame 0/1800 {"phase":"attack","turn":1,"playing":"armiesPlaced","cam":"overview"}
+~92 ms/frame real → CSS playbackRate 0.36
+frame 150/1800 {"phase":"occupy","turn":1,"playing":"conquered","cam":"battle"}
+frame 300/1800 {"phase":"attack","turn":1,"playing":"battle","cam":"battle"}
+frame 450/1800 {"phase":"attack","turn":1,"playing":"battle","cam":"battle"}
+frame 600/1800 {"phase":"attack","turn":1,"playing":"battle","cam":"battle"}
+frame 750/1800 {"phase":"fortify","turn":1,"playing":"cardDrawn","cam":"battle"}
+frame 900/1800 {"phase":"attack","turn":1,"cam":"overview"}
+frame 1050/1800 {"phase":"occupy","turn":1,"playing":"battle","cam":"battle"}
+frame 1200/1800 {"phase":"occupy","turn":1,"playing":"battle","cam":"battle"}
+frame 1350/1800 {"phase":"attack","turn":1,"playing":"battle","cam":"battle"}
+frame 1500/1800 {"phase":"attack","turn":1,"playing":"battle","cam":"battle"}
+frame 1650/1800 {"phase":"attack","turn":1,"playing":"battle","cam":"battle"}
+done 1800 frames in 161s; errors: none

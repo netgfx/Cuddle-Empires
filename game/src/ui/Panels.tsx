@@ -99,7 +99,7 @@ export function SettingsPanel() {
         </select>
       </label>
       <label className="set-row">Music volume
-        <input type="range" min={0} max={1} step={0.05} value={musicVolume} onChange={(e) => ui.setPrefs({ musicVolume: +e.target.value })} data-testid="settings-music-volume" />
+        <input type="range" min={0} max={1} step={0.025} value={musicVolume} onChange={(e) => ui.setPrefs({ musicVolume: +e.target.value })} data-testid="settings-music-volume" />
       </label>
       <label className="set-row">Sound effects
         <input type="range" min={0} max={1} step={0.05} value={sfxVolume} onChange={(e) => ui.setPrefs({ sfxVolume: +e.target.value })} data-testid="settings-sfx-volume" />
