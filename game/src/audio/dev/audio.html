@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
+    <title>Audio dev</title>
+    <style>
+      :root {
+        --bg: #fdf6ec;
+        --fg: #2b2a33;
+        --card: #ffffff;
+        --accent: #ff8fa3;
+        --muted: #7a7585;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --bg: #1d1b26;
+          --fg: #f1eef7;
+          --card: #2a2735;
+          --accent: #ff8fa3;
+          --muted: #a59fb3;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme='dark'] {
+        --bg: #1d1b26;
+        --fg: #f1eef7;
+        --card: #2a2735;
+        --accent: #ff8fa3;
+        --muted: #a59fb3;
+        color-scheme: dark;
+      }
+      body {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 16px;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0 0 12px;
+      }
+      h2 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin: 18px 0 8px;
+      }
+      section {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+      button {
+        font: inherit;
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--accent);
+        background: transparent;
+        color: var(--fg);
+        cursor: pointer;
+      }
+      button:hover {
+        background: var(--accent);
+        color: #fff;
+      }
+      label {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        color: var(--muted);
+      }
+      input[type='range'] {
+        width: min(260px, 60vw);
+      }
+      pre {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 12px;
+        white-space: pre-wrap;
+        font-size: 12px;
+        max-height: 260px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Risk 3D audio dev</h1>
+    <section>
+      <div class="row">
+        <button id="unlock">Unlock audio</button>
+        <span id="status" class="row" style="color: var(--muted)">context: none</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Music</h2>
+      <div id="music" class="row"></div>
+      <div class="row" style="margin-top: 10px">
+        <label>music volume <input id="musicVol" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
+      </div>
+    </section>
+
+    <section>
+      <h2>SFX</h2>
+      <div id="sfx" class="row"></div>
+      <div class="row" style="margin-top: 10px">
+        <label>sfx volume <input id="sfxVol" type="range" min="0" max="1" step="0.01" value="0.8" /></label>
+      </div>
+    </section>
+
+    <section>
+      <h2>Offline render (peak / rms at full mix)</h2>
+      <div id="render" class="row"></div>
+    </section>
+
+    <pre id="log"></pre>
+
+    <script type="module" src="./audioDev.ts"></script>
+  </body>
+</html>

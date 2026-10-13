@@ -1,0 +1,22 @@
+{
+  // Typecheck for the room server: npx tsc -p server/tsconfig.json --noEmit
+  // (moduleResolution "bundler" because src/game uses extensionless relative imports; tsx runs it as-is.)
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["./**/*.ts", "../src/game/types.ts", "../src/game/engine.ts", "../src/game/bot.ts", "../src/net/transport.ts"]
+}

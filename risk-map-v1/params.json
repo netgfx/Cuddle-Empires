@@ -1,0 +1,21 @@
+{
+  "animations": "",
+  "art_style": "auto",
+  "atlas_size": "2048",
+  "bake_ao": false,
+  "bake_detail": true,
+  "colliders": "",
+  "finish": "agent",
+  "fps": 24,
+  "grid": "1",
+  "height_cm": 100,
+  "lods": "0.5, 0.25",
+  "max_triangles": 20000,
+  "reduce_to_budget": true,
+  "shape_keys": "",
+  "slots": "",
+  "softbody": "auto",
+  "surface": "smart",
+  "texture_size": "512",
+  "textures": "pbr"
+}

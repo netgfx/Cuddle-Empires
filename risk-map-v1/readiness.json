@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "title": "Engine-ready",
+  "label": "Engine-ready 9/10",
+  "score": 9,
+  "max": 10,
+  "state": "warn",
+  "counts": {
+    "pass": 9,
+    "warn": 3,
+    "fail": 0,
+    "info": 2
+  },
+  "checks": [
+    {
+      "id": "triangles",
+      "label": "Triangle budget",
+      "state": "pass",
+      "value": "15 346",
+      "detail": "15 346 of 20 000 triangles (77% of max_triangles)"
+    },
+    {
+      "id": "topology",
+      "label": "Clean topology",
+      "state": "warn",
+      "value": "0 non-manifold",
+      "detail": "0 non-manifold edges; 0 loose verts/edges; 44 pieces"
+    },
+    {
+      "id": "normals",
+      "label": "Normals",
+      "state": "pass",
+      "value": "consistent",
+      "detail": "every face points outward, winding consistent"
+    },
+    {
+      "id": "uvs",
+      "label": "UV maps",
+      "state": "pass",
+      "value": "all",
+      "detail": "every textured part has UVs (49 parts)"
+    },
+    {
+      "id": "uv_overlap",
+      "label": "UV overlap",
+      "state": "pass",
+      "value": "0.0%",
+      "detail": "0.0% of the RiskMap_basecolor atlas is used by more than one face"
+    },
+    {
+      "id": "texel_density",
+      "label": "Texel density",
+      "state": "pass",
+      "value": "525 px/m",
+      "detail": "min 521 / median 525 / max 526 px per metre across 49 parts (10th / 50th / 90th percentile of the surface)"
+    },
+    {
+      "id": "size",
+      "label": "Real-world size",
+      "state": "pass",
+      "value": "2.00 x 1.00 x 0.04 m",
+      "detail": "2.00 x 1.00 x 0.04 m (W x D x H), metres as engine units"
+    },
+    {
+      "id": "pivot",
+      "label": "Pivot",
+      "state": "pass",
+      "value": "floor centre",
+      "detail": "origin at the floor centre of the base, so it snaps to the placement grid and turns in place"
+    },
+    {
+      "id": "draw_calls",
+      "label": "Draw calls",
+      "state": "warn",
+      "value": "49",
+      "detail": "49 meshes, 1 material: 49 draw calls in model.glb; 10 source materials merged into one atlas - merge static parts to cut draw calls"
+    },
+    {
+      "id": "nodes",
+      "label": "Node count",
+      "state": "warn",
+      "value": "98",
+      "detail": "98 nodes (49 mesh parts, the root, sockets and pivots) - a deep hierarchy costs transform updates"
+    },
+    {
+      "id": "colliders",
+      "label": "Colliders",
+      "state": "pass",
+      "value": "48",
+      "detail": "collision shapes: 48 box, an upright capsule, a convex hull; a collision mesh of 7977 triangles, 2.4783 m\u00b2 walkable in 36 areas, 28 steps (max 0.0138 m), 28 with ramps"
+    },
+    {
+      "id": "lods",
+      "label": "LODs",
+      "state": "pass",
+      "value": "2",
+      "detail": "levels of detail: LOD0 15346 triangles, LOD1 7662, LOD2 3806"
+    },
+    {
+      "id": "animations",
+      "label": "Animation clips",
+      "state": "info",
+      "value": "static",
+      "detail": "no animation clips"
+    },
+    {
+      "id": "lighting",
+      "label": "No baked lighting",
+      "state": "info",
+      "value": "procedural",
+      "detail": "procedural PBR materials: no light is painted into the colour; see lighting.png"
+    }
+  ],
+  "kind": "model3d"
+}
