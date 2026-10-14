@@ -289,6 +289,54 @@ b { font-weight: 600; }
 .set-row input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--pink-deep); }
 .settings-panel .btn.danger { width: 100%; margin-top: 8px; }
 
+/* ------------------------------------------------------------ save / load */
+.saves-panel { position: relative; width: min(600px, calc(100vw - 32px)); max-height: calc(100vh - 60px); }
+.saves-panel .panel-body { display: flex; flex-direction: column; gap: 10px; }
+.save-bar { display: flex; gap: 8px; align-items: center; background: rgba(255, 255, 255, .75); padding: 6px; border-radius: 999px; box-shadow: 0 2px 6px rgba(80, 70, 140, .08); }
+.save-bar .name-input { border-radius: 999px; }
+.save-btn { min-width: 138px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.save-btn.done { background: linear-gradient(180deg, #8fe3c8, #3cb88f); color: #fff; box-shadow: 0 3px 0 #2a9572, 0 6px 16px rgba(60, 184, 143, .35); animation: popIn .35s cubic-bezier(.34, 1.56, .64, 1); }
+.ui-root .save-btn:disabled { opacity: 1; cursor: progress; }
+.spinner { width: 15px; height: 15px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; display: inline-block; animation: spin .7s linear infinite; flex: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.save-ring { position: absolute; inset: -3px; border-radius: 50%; border: 3px solid var(--mint); border-right-color: transparent; border-bottom-color: transparent; animation: spin .7s linear infinite; pointer-events: none; }
+.badge.ok { background: #3cb88f; }
+.saves-note, .saves-error { margin: 0; padding: 8px 14px; border-radius: var(--r-sm); font-size: 14px; font-weight: 500; }
+.saves-note { background: #e1efff; color: #2d5fa8; }
+.saves-error { background: #fff0f0; color: #a3263a; box-shadow: inset 0 0 0 2px #ffb3b3; }
+.saves-head { display: flex; justify-content: space-between; gap: 8px; padding: 0 4px; min-height: 16px; }
+.saves-empty { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 22px 0 10px; text-align: center; }
+.saves-empty p { margin: 0; }
+.saves-empty .unit-img, .saves-empty .unit-emoji { animation: bob 1.4s ease-in-out infinite; margin-bottom: 6px; }
+.saves-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.save-row { display: flex; align-items: center; gap: 12px; background: rgba(255, 255, 255, .8); padding: 10px 12px 10px 16px; border-radius: 18px; box-shadow: 0 2px 6px rgba(80, 70, 140, .08); border: 2px solid transparent; transition: transform .2s cubic-bezier(.34, 1.56, .64, 1), border-color .3s, background .3s; }
+.save-row:hover { transform: translateY(-2px); background: #fff; }
+.save-row.fresh { border-color: #3cb88f; background: #effbf6; animation: popIn .4s cubic-bezier(.34, 1.56, .64, 1); }
+.save-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.save-title { display: flex; align-items: baseline; gap: 10px; }
+.save-label { font-weight: 600; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.save-time { margin-left: auto; font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
+.save-players { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 13px; font-weight: 500; }
+.save-player { display: inline-flex; align-items: center; gap: 5px; }
+.save-player .chip-dot { width: 11px; height: 11px; }
+.save-player.turn { font-weight: 700; }
+.save-player.turn::after { content: '◀'; font-size: 9px; color: var(--pc); }
+.save-player.elim { opacity: .5; text-decoration: line-through; }
+.save-share { display: flex; height: 6px; border-radius: 999px; overflow: hidden; gap: 2px; background: rgba(120, 110, 160, .12); }
+.save-share span { display: block; min-width: 3px; }
+.save-actions { display: flex; align-items: center; gap: 6px; flex: none; }
+.saves-confirm { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; padding: 16px; border-radius: var(--r); background: rgba(255, 250, 246, .7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); animation: fade .2s; }
+.saves-confirm-card { background: var(--panel-solid); border-radius: 24px; padding: 18px 22px 20px; text-align: center; max-width: 520px; box-shadow: 0 0 0 3px var(--sun), 0 20px 50px rgba(40, 30, 90, .25); display: flex; flex-direction: column; gap: 10px; }
+.saves-confirm-card h3 { margin: 0; font-size: 19px; overflow-wrap: anywhere; }
+.saves-confirm-card p { margin: 0; font-size: 14px; }
+.saves-confirm-emoji { font-size: 34px; line-height: 1; }
+@media (max-width: 560px) {
+  .save-row { flex-direction: column; align-items: stretch; }
+  .save-actions { justify-content: flex-end; }
+  .save-bar { border-radius: 18px; flex-wrap: wrap; }
+  .save-btn { flex: 1; }
+}
+
 /* ------------------------------------------------------------ setup */
 .setup-backdrop { position: absolute; inset: 0; display: grid; place-items: center; overflow: auto; padding: 16px; background: radial-gradient(circle at 20% 20%, rgba(255, 210, 230, .55), transparent 50%), radial-gradient(circle at 80% 80%, rgba(190, 230, 255, .6), transparent 50%), rgba(240, 236, 255, .35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 .setup-card { width: min(640px, 100%); background: var(--panel); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 32px; padding: 22px 30px 26px; box-shadow: 0 24px 60px rgba(70, 60, 130, .25); border: 1px solid #fff; display: flex; flex-direction: column; gap: 14px; animation: popIn .5s cubic-bezier(.34, 1.56, .64, 1); }
@@ -326,6 +374,7 @@ b { font-weight: 600; }
 .setup-options { display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; align-items: center; }
 .setup-options label { font-weight: 600; font-size: 14px; }
 .setup-local > .btn.big { align-self: center; }
+.setup-start { gap: 12px; }
 .setup-online label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; }
 .setup-online input { border: 2px solid transparent; background: rgba(120, 110, 160, .08); border-radius: 12px; padding: 8px 12px; font-size: 15px; outline: none; }
 .setup-online input:focus { border-color: var(--pink); background: #fff; }

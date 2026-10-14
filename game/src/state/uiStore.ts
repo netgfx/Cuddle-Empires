@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import type { TerritoryId } from '../game/types';
 
-export type PanelId = 'scoreboard' | 'cards' | 'log' | 'help' | 'settings' | 'territory';
+export type PanelId = 'scoreboard' | 'cards' | 'log' | 'help' | 'settings' | 'territory' | 'saves';
 export type MusicTrackId = 'off' | 'meadow' | 'march' | 'lullaby' | 'adventure';
 export type CameraFocus = { kind: 'overview' } | { kind: 'territory'; id: TerritoryId } | { kind: 'battle'; from: TerritoryId; to: TerritoryId };
 
@@ -62,7 +62,7 @@ export const useUI = create<UIStore>()(
       target: null,
       attackDice: 3,
       placeCount: 1,
-      panels: { scoreboard: true, cards: false, log: false, help: false, settings: false, territory: false },
+      panels: { scoreboard: true, cards: false, log: false, help: false, settings: false, territory: false, saves: false },
       camera: { kind: 'overview' },
 
       music: 'meadow',

@@ -3,6 +3,7 @@ import { useGame } from '../state/gameStore';
 import { useUI, type PanelId } from '../state/uiStore';
 import { PlayerChip } from './common';
 import { useCanAct, useHandOwner, useMySeat } from './localStore';
+import { SaveBadge } from './SavesPanel';
 import { currentPlayer, sfx, sel, tName } from './util';
 
 const STEPS: { id: 'reinforce' | 'attack' | 'fortify'; label: string; icon: string }[] = [
@@ -23,6 +24,7 @@ const TOGGLES: { id: PanelId; icon: string; label: string }[] = [
   { id: 'cards', icon: '🃏', label: 'Cards' },
   { id: 'territory', icon: '🗺️', label: 'Territory info' },
   { id: 'log', icon: '📜', label: 'Log' },
+  { id: 'saves', icon: '💾', label: 'Save / load game' },
   { id: 'help', icon: '❓', label: 'Help' },
   { id: 'settings', icon: '⚙️', label: 'Settings' },
 ];
@@ -73,6 +75,7 @@ export function HUD() {
   const canAct = useCanAct();
   const mySeat = useMySeat();
   const { selected, target, placeCount, panels } = useUI();
+  const local = useGame((s) => s.transport?.mode === 'local');
   if (!view) return null;
   const p = currentPlayer(view);
   const step = stepOf(view.phase);
@@ -109,11 +112,12 @@ export function HUD() {
           )}
         </div>
         <div className="hud-toggles">
-          {TOGGLES.map((t) => (
-            <button key={t.id} className={`icon-btn ${panels[t.id] ? 'on' : ''}`} title={t.label} aria-label={t.label}
+          {TOGGLES.filter((t) => t.id !== 'saves' || local).map((t) => (
+            <button key={t.id} className={`icon-btn ${panels[t.id] ? 'on' : ''}`} title={t.id === 'saves' ? `${t.label} (Ctrl+S saves)` : t.label} aria-label={t.label}
               onClick={() => { ui.togglePanel(t.id); sfx('click'); }} data-testid={`panel-toggle-${t.id}`}>
               {t.icon}
               {t.id === 'cards' && <CardBadge />}
+              {t.id === 'saves' && <SaveBadge />}
             </button>
           ))}
         </div>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import type { GameSettings, NewPlayer, PlayerKind } from '../game/types';
 import { useGame } from '../state/gameStore';
+import { useSaves } from '../state/saves';
+import { useUI } from '../state/uiStore';
 import { unlockAudio } from './audioBridge';
 import { UnitIcon } from './common';
 import { TEAM_PALETTE, sfx } from './util';
@@ -27,11 +29,13 @@ export function SetupScreen() {
           <h1>RISK <span className="title-dot">·</span> <span className="title-cute">Cute Edition</span></h1>
           <p className="muted">Conquer the world with dogs, ponies and pandas.</p>
         </div>
-        <div className="tabs">
-          <button className={tab === 'local' ? 'on' : ''} onClick={() => setTab('local')} data-testid="setup-tab-local">Local</button>
-          <button className={tab === 'online' ? 'on' : ''} onClick={() => setTab('online')} data-testid="setup-tab-online">Online (beta)</button>
-        </div>
-        {tab === 'local' ? <LocalSetup /> : <OnlineSetup />}
+        {__RISK_DEBUG__ && (
+          <div className="tabs">
+            <button className={tab === 'local' ? 'on' : ''} onClick={() => setTab('local')} data-testid="setup-tab-local">Local</button>
+            <button className={tab === 'online' ? 'on' : ''} onClick={() => setTab('online')} data-testid="setup-tab-online">Online (beta)</button>
+          </div>
+        )}
+        {__RISK_DEBUG__ && tab === 'online' ? <OnlineSetup /> : <LocalSetup />}
       </div>
     </div>
   );
@@ -123,8 +127,22 @@ function LocalSetup() {
         <Seg value={settings.fortify} onChange={(v) => setSettings({ ...settings, fortify: v })} testid="setup-opt-fortify"
           options={[{ v: 'adjacent', label: 'Adjacent', hint: 'Move to a neighbour (book)' }, { v: 'connected', label: 'Connected', hint: 'Move through your own chain' }]} />
       </div>
-      <button className="btn primary big" onClick={start} data-testid="start-game">Start game ✨</button>
+      <div className="row-btns setup-start">
+        <LoadButton />
+        <button className="btn primary big" onClick={start} data-testid="start-game">Start game ✨</button>
+      </div>
     </div>
+  );
+}
+
+function LoadButton() {
+  const count = useSaves((s) => s.saves.length);
+  useEffect(() => useSaves.getState().refresh(), []);
+  if (!count) return null;
+  return (
+    <button className="btn big ghost" onClick={() => { sfx('click'); useUI.getState().setPanel('saves', true); }} data-testid="open-saves">
+      📂 Load game <span className="badge static">{count}</span>
+    </button>
   );
 }
 

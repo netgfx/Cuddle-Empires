@@ -8,6 +8,7 @@ The classic Parker Brothers rules (1993 edition) on a cute 2.5D board. Armies ar
 ```bash
 npm install
 npm run dev                 # http://localhost:5173 — local hotseat (humans + bots)
+npm run dev:debug           # same, plus the Online (beta) tab on the setup screen (also: any vite command with --debug)
 PORT=8787 npm run server    # optional: room server for Online (beta) play, ws://localhost:8787/ws
 ```
 
@@ -37,8 +38,9 @@ npm test                                   # vitest: engine (83), dice (4), serv
 npm run typecheck
 node scripts/e2e-hotseat.mjs out 6         # Chrome: hotseat game through setup screen, board clicks and dialogs
 node scripts/e2e-cards.mjs out             # Chrome: card hand + forced trade
-node scripts/e2e-online.mjs out 6          # Chrome: two pages, Online lobby → synced play (needs the server)
+node scripts/e2e-online.mjs out 6          # Chrome: two pages, Online lobby → synced play (needs the server + `npm run dev:debug`)
 node scripts/e2e-botgame.mjs out 3 4       # Chrome: full all-bot game to the Game Over screen
+node scripts/e2e-saves.mjs http://localhost:5173 out  # Chrome: save (modal + Ctrl+S), load over a running game, delete, load from setup
 node scripts/shot.mjs <url> <png>          # screenshot + console errors
 ```
 The e2e scripts need the dev server on :5173. They drive real Chrome through Playwright, and `window.__risk` exposes the stores for assertions.

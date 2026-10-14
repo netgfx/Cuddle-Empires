@@ -33,27 +33,34 @@ export interface GameStore {
 }
 
 let queue: Batch[] = [];
-let draining = false;
+/** Bumped whenever the running game is replaced, so an in-flight drain stops touching the store. */
+let epoch = 0;
+/** Epoch of the drain loop currently running (-1 when idle). A stale loop never blocks a new game's. */
+let drainingEpoch = -1;
 let unsubscribe: (() => void) | null = null;
 
 export const useGame = create<GameStore>((set, get) => {
   async function drain() {
-    if (draining) return;
-    draining = true;
+    if (drainingEpoch === epoch) return;
+    const mine = epoch;
+    drainingEpoch = mine;
     set({ busy: true });
     try {
-      while (queue.length) {
+      while (queue.length && mine === epoch) {
         const batch = queue.shift()!;
         const before = get().view;
         for (const ev of batch.events) {
           set({ playing: ev, history: [...get().history, ev] });
           await playEvent(ev, { before, after: batch.state, speed: useUI.getState().animSpeed });
+          if (mine !== epoch) return;
         }
         set({ view: batch.state, playing: null });
       }
     } finally {
-      draining = false;
-      set({ busy: false, playing: null });
+      if (mine === epoch) {
+        drainingEpoch = -1;
+        set({ busy: false, playing: null });
+      }
     }
   }
 
@@ -100,6 +107,7 @@ export const useGame = create<GameStore>((set, get) => {
     },
 
     leave() {
+      epoch++;
       unsubscribe?.();
       unsubscribe = null;
       get().transport?.close();

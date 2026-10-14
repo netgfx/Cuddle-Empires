@@ -9,6 +9,7 @@ import { AttackPanel, FortifyDialog, OccupyDialog } from './Dialogs';
 import { GameOver } from './GameOver';
 import { HUD } from './HUD';
 import { HelpPanel, LogPanel, SettingsPanel } from './Panels';
+import { quickSave, SavesPanel } from './SavesPanel';
 import { Scoreboard } from './Scoreboard';
 import { SetupScreen } from './SetupScreen';
 import { TerritoryInfo } from './TerritoryInfo';
@@ -17,7 +18,9 @@ import { Curtain, Popups, TurnBanner, TurnDirector } from './TurnBanner';
 import './ui.css';
 
 /** Panels closed by Esc, topmost first. */
-const ESC_ORDER: PanelId[] = ['help', 'settings', 'log', 'territory'];
+const ESC_ORDER: PanelId[] = ['saves', 'help', 'settings', 'log', 'territory'];
+
+const isSaveKey = (e: KeyboardEvent) => (e.ctrlKey || e.metaKey) && !e.altKey && e.key.toLowerCase() === 's';
 
 export function UIRoot() {
   const hasView = useGame((s) => !!s.view);
@@ -26,6 +29,12 @@ export function UIRoot() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (isSaveKey(e)) {
+        if (!useGame.getState().game) return;
+        e.preventDefault(); // never the browser's "save page" dialog mid-game
+        if (!e.repeat && !useUI.getState().panels.saves) void quickSave(); // the open modal saves with its own name field
+        return;
+      }
       if (e.key !== 'Escape') return;
       const ui = useUI.getState();
       const top = ESC_ORDER.find((p) => ui.panels[p]);
@@ -67,6 +76,7 @@ export function UIRoot() {
           <GameOver />
         </>
       )}
+      <SavesPanel />
       <Curtain />
       <Toasts />
     </div>
