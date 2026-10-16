@@ -1,1 +1,0 @@
-World domination, but make it cute. Cuddle Empires is classic world-conquest strategy on a 3D board, with dogs, ponies and pandas as armies, physics dice, bots and online play. A team of AI agents built it in about 70 minutes, with 3D assets from SINNON.NET staged in Blender. Play free: https://cuddle-empires.vercel.app

@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# code → Figma pipeline outputs (regenerate with npm run figma:*)
+figma/ref
+figma/dom
+figma/plugin-out
+figma/runner-out
+figma/validation
+figma/captures.json
+figma/backdrops
+figma/queue
+scripts/figma/runner-plugin/code.js

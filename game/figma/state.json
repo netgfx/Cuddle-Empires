@@ -1,0 +1,33 @@
+{
+  "runId": "cuddle-empires-ui-2026-10-15",
+  "fileKey": "AYtycfAZKPf7OnlQ7lCtL6",
+  "fileUrl": "https://www.figma.com/design/AYtycfAZKPf7OnlQ7lCtL6",
+  "plan": "Starter (team::1692538417062903375), View seat — 3 pages max, 1 variable mode per collection, ~20 read-tool calls/month",
+  "pages": { "library": "3:2", "screens": "3:3", "reference": "0:1" },
+  "collections": {
+    "Primitives": "VariableCollectionId:5:2", "Color": "VariableCollectionId:5:75", "Team": "VariableCollectionId:5:144",
+    "Continent": "VariableCollectionId:5:222", "Dimension": "VariableCollectionId:5:258", "Layout": "VariableCollectionId:5:287"
+  },
+  "images": {
+    "dog": { "hash": "f40ed3ceb1e88175a8b4e7d41e83af4161f0f4b6", "uploadedNode": "5:426" },
+    "pony": { "hash": "7858c84bbdf4963351f3bb58ab1293b510e7ccb7", "uploadedNode": "5:427" },
+    "panda": { "hash": "0d78f1ac85e1e256b4d6a31c163c6461c9336c0a", "uploadedNode": "5:428" },
+    "board": { "fromCapture": "2:8", "note": "rasterised WebGL canvas in the reinforce@desktop capture" }
+  },
+  "captures": { "reinforce@desktop": "2:2" },
+  "completedSteps": ["tokens", "foundations", "pages", "icons-uploaded", "board-controls", "board-data", "board-cards", "board-panels", "board-hud-overlays"],
+  "pending": ["runner: 14-fixes + 13-verify (bundle built)", "npm run figma:validate (pass 2)"],
+  "done2026-10-15": ["01-foundations re-sync", "07-setup", "08-saves", "09-3d-ui", "10-screens-flow", "11-screens-overlays", "12-screens-responsive", "13-verify", "validate pass 1"],
+  "blocker": "MCP quota exhausted for the month (Starter / View seat); all Figma writes go through the runner plugin.",
+  "boards": { "Controls": "6:4", "Data display": "8:4" },
+  "components": {
+    "unit": "6:16", "badge": "6:26", "buttonSmall": "6:102", "button": "6:178", "buttonBig": "6:254", "iconButton": "6:302", "roundButton": "6:310",
+    "segOption": "6:324", "segControl": "6:325", "swatch": "6:340", "textInput": "6:360", "kindToggle": "6:368", "chipTag": "6:373", "addPlayer": "6:378",
+    "die": "6:409", "spinner": "6:417", "slider": "6:433", "select": "6:434", "checkbox": "6:440",
+    "dot": "8:13", "playerChip": "8:32", "contChip": "8:39", "armyStack": "8:43", "step": "8:71", "stepArrow": "8:73", "scoreRow": "8:137",
+    "neighbour": "8:149", "logItem": "8:150", "odds": "8:177", "countPicker": "8:178", "vsSide": "8:188", "savePlayer": "8:213", "share": "8:214",
+    "cardFace": "9:66", "cardBack": "9:70", "deck": "9:72", "handCard": "9:133", "handTab": "9:137", "handBar": "9:188", "handEmpty": "9:189", "cardHand": "9:414",
+    "panel": "10:241", "dialog": "10:252", "scoreboard": "10:319", "territoryPanel": "10:413", "logPanel": "10:468", "settingsPanel": "10:694", "helpPanel": "10:938", "dialogs": "10:1170"
+  },
+  "boardsMore": { "Cards": "9:12", "Panels & dialogs": "10:235" }
+}

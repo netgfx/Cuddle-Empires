@@ -1,0 +1,66 @@
+<!doctype html>
+<meta charset="utf-8" />
+<style>
+  body { font: 12px/1.4 Inter, system-ui, sans-serif; margin: 0; padding: 12px; color: var(--figma-color-text, #222); background: var(--figma-color-bg, #fff); }
+  h1 { font-size: 13px; margin: 0 0 4px; }
+  .muted { color: var(--figma-color-text-secondary, #777); }
+  ul { list-style: none; padding: 0; margin: 10px 0; max-height: 200px; overflow: auto; border: 1px solid var(--figma-color-border, #ddd); border-radius: 6px; }
+  li { display: flex; gap: 8px; align-items: center; padding: 5px 8px; border-bottom: 1px solid var(--figma-color-border, #eee); }
+  li:last-child { border-bottom: 0; }
+  li .st { margin-left: auto; font-size: 11px; }
+  .ok { color: #1a8f5a; } .err { color: #c0392b; } .run { color: #b06d00; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  button { flex: 1; padding: 7px; border-radius: 6px; border: 1px solid var(--figma-color-border, #ccc); background: var(--figma-color-bg-secondary, #f5f5f5); color: inherit; cursor: pointer; }
+  button.primary { background: #f0507f; color: #fff; border-color: #f0507f; }
+  .watch { margin: 8px 0; padding: 8px; border-radius: 6px; background: var(--figma-color-bg-secondary, #f5f5f5); }
+  pre { white-space: pre-wrap; max-height: 170px; overflow: auto; background: var(--figma-color-bg-secondary, #f5f5f5); padding: 8px; border-radius: 6px; font-size: 11px; }
+</style>
+<h1>Code → Figma runner</h1>
+<div class="muted">Local server <code>localhost:__PORT__</code>: <span id="srv">checking…</span></div>
+<div class="watch" id="watchBox">
+  <label class="row"><input type="checkbox" id="watch" checked /> <b>Watch mode</b> <span class="muted" id="watchInfo"></span></label>
+</div>
+<ul id="list"></ul>
+<div class="row"><button id="sel">Run selected</button><button id="all" class="primary">Run all bundled</button></div>
+<pre id="log">Ready.</pre>
+<script>
+  const SERVER = 'http://localhost:__PORT__';
+  const $ = (id) => document.getElementById(id);
+  const log = (s) => { $('log').textContent = `${new Date().toLocaleTimeString()} ${s}\n` + $('log').textContent; };
+  const post = (p, body, type = 'application/json') => fetch(SERVER + p, { method: 'POST', headers: { 'Content-Type': type }, body }).catch(() => {});
+  let names = [], canEval = false, busy = false, online = false;
+  const status = (name, cls, text) => { const el = document.querySelector(`[data-n="${name}"] .st`); if (el) { el.className = 'st ' + cls; el.textContent = text; } };
+  const ping = () => fetch(SERVER + '/ping').then((r) => { online = r.ok; $('srv').textContent = online ? 'connected' : 'error'; }).catch(() => { online = false; $('srv').textContent = 'not running — results stay in this panel'; });
+  ping(); setInterval(ping, 5000);
+
+  async function poll() { // watch mode: run whatever is queued on the server
+    if (!canEval || busy || !online || !$('watch').checked) return;
+    const r = await fetch(SERVER + '/queue/next').catch(() => null);
+    if (!r || r.status !== 200) return;
+    const job = await r.json();
+    busy = true;
+    parent.postMessage({ pluginMessage: { type: 'runCode', name: job.name, code: job.code, job: job.id } }, '*');
+  }
+  setInterval(poll, 1500);
+
+  onmessage = ({ data: { pluginMessage: m } }) => {
+    if (!m) return;
+    if (m.type === 'hello') {
+      names = m.scripts; canEval = m.canEval;
+      $('list').innerHTML = names.map((n) => `<li data-n="${n}"><input type="checkbox" value="${n}" /> ${n}<span class="st muted">—</span></li>`).join('');
+      $('watchInfo').textContent = canEval ? '— runs scripts Claude queues, no clicks needed' : '— unavailable in this Figma sandbox (no runtime eval); use the bundled scripts';
+      if (!canEval) { $('watch').checked = false; $('watch').disabled = true; }
+      post('/hello', JSON.stringify({ file: m.file, canEval, scripts: names }));
+      log(`${names.length} bundled scripts for “${m.file}” · watch mode ${canEval ? 'available' : 'unavailable'}`);
+    }
+    if (m.type === 'start') { status(m.name, 'run', 'running…'); log(`▶ ${m.name}`); }
+    if (m.type === 'log') log(`  ${m.script}: ${m.text}`);
+    if (m.type === 'done') { status(m.name, 'ok', `✓ ${(m.ms / 1000).toFixed(1)}s`); log(`✓ ${m.name} ${JSON.stringify(m.result).slice(0, 400)}`); post('/result', JSON.stringify(m)); }
+    if (m.type === 'error') { status(m.name, 'err', '✗ failed'); log(`✗ ${m.name}: ${m.error}\n(rolled back ${m.removed} top-level nodes)`); post('/result', JSON.stringify(m)); }
+    if (m.type === 'snap') { post(`/snap?script=${encodeURIComponent(m.script)}&node=${encodeURIComponent(m.node)}`, new Blob([m.bytes], { type: 'image/png' }), 'image/png'); }
+    if (m.type === 'idle') { busy = false; if (m.job) post('/queue/done', JSON.stringify({ id: m.job })); log('idle'); }
+  };
+  const run = (list) => { if (list.length) { busy = true; parent.postMessage({ pluginMessage: { type: 'run', names: list } }, '*'); } };
+  $('sel').onclick = () => run([...document.querySelectorAll('#list input:checked')].map((i) => i.value));
+  $('all').onclick = () => run(names);
+</script>

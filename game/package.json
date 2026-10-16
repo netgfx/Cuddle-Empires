@@ -12,7 +12,13 @@
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "server": "tsx server/index.ts",
-    "shot": "node scripts/shot.mjs"
+    "shot": "node scripts/shot.mjs",
+    "figma": "node ../.claude/skills/code-to-figma/engine/cli.mjs",
+    "figma:tokens": "npm run -s figma -- tokens",
+    "figma:capture": "npm run -s figma -- capture",
+    "figma:bundle": "npm run -s figma -- bundle",
+    "figma:serve": "npm run -s figma -- serve",
+    "figma:validate": "npm run -s figma -- validate"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
